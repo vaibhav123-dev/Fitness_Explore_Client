@@ -1,3 +1,64 @@
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+
 export const Login = () => {
-  return <div>Login</div>;
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.email === "" || formData.password === "") {
+      toast.warning("Please fill in all fields");
+      return;
+    }
+
+    setFormData({
+      email: "",
+      password: "",
+    });
+
+    toast.success("Login successful");
+  };
+
+  return (
+    <div className="bg-grey-lighter min-h-screen flex flex-col">
+      <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+        <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+          <h1 className="mb-8 text-3xl text-center">Login</h1>
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <button
+            className="w-full text-center py-3 rounded bg-blue-500 text-white hover:bg-blue-700 focus:outline-none my-1"
+            onClick={handleSubmit}
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import ToastService from "../components/ToastService"; // Adjust the path to match your actual file location
+import { toast } from "react-toastify";
+import { passwordsMatch, validateEmail } from "../services/common";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -26,31 +27,19 @@ export const Signup = () => {
     });
   };
 
-  const validateEmail = (email) => {
-    // Regular expression for email validation
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
-
-  const passwordsMatch = () => {
-    return formData.password === formData.confirm_password;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateEmail(formData.email)) {
-      ToastService.notify("Please enter a valid email address", "warning");
-      return;
+      return toast.error("Invalid Email Address");
     }
-    if (!passwordsMatch()) {
-      ToastService.notify("Passwords do not match", "warning");
-      return;
+    if (!passwordsMatch(formData)) {
+      return toast.error("Passward not match");
     }
-    // Here you can proceed with form submission or other actions
+    toast.success("Signup successful");
   };
 
   return (
-    <div className="bg-grey-lighter min-h-screen flex flex-col">
+    <div className="bg-gray-50 min-h-screen flex flex-col">
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
           <h1 className="mb-8 text-3xl text-center">Sign up</h1>
@@ -88,10 +77,18 @@ export const Signup = () => {
           />
           <input
             type="file"
-            className="block border border-grey-light w-full p-3 rounded mb-4"
+            className="hidden" 
+            id="customFileInput" 
             name="photo"
             onChange={handlePhotoChange}
           />
+          <label
+            htmlFor="customFileInput"
+            className="block border border-grey-light w-full p-3 rounded mb-4 cursor-pointer"
+          >
+            Choose a file
+          </label>
+
           <button
             className="w-full text-center py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
             onClick={handleSubmit}
@@ -100,7 +97,6 @@ export const Signup = () => {
           </button>
         </div>
       </div>
-      {ToastService.setup()} {/* Render ToastContainer */}
     </div>
   );
 };
