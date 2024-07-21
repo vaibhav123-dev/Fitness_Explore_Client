@@ -1,9 +1,17 @@
 import axios from "axios";
 
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:8000", // Replace with your API base URL
+  headers: {
+    "Content-Type": "application/json",
+    // Add other default headers if needed
+  },
+});
+
 // GET request
 export const getRequest = async (url, params = {}, config = {}) => {
   try {
-    const response = await axios.get(url, { params, ...config });
+    const response = await axiosInstance.get(url, { params, ...config });
     return response.data;
   } catch (error) {
     console.error("GET request error:", error);
@@ -14,7 +22,7 @@ export const getRequest = async (url, params = {}, config = {}) => {
 // POST request
 export const postRequest = async (url, data = {}, config = {}) => {
   try {
-    const response = await axios.post(url, data, { ...config });
+    const response = await axiosInstance.post(url, data, { ...config });
     return response.data;
   } catch (error) {
     console.error("POST request error:", error);
@@ -25,7 +33,7 @@ export const postRequest = async (url, data = {}, config = {}) => {
 // PUT request
 export const putRequest = async (url, data = {}, config = {}) => {
   try {
-    const response = await axios.put(url, data, { ...config });
+    const response = await axiosInstance.put(url, data, { ...config });
     return response.data;
   } catch (error) {
     console.error("PUT request error:", error);
@@ -36,7 +44,7 @@ export const putRequest = async (url, data = {}, config = {}) => {
 // PATCH request
 export const patchRequest = async (url, data = {}, config = {}) => {
   try {
-    const response = await axios.patch(url, data, { ...config });
+    const response = await axiosInstance.patch(url, data, { ...config });
     return response.data;
   } catch (error) {
     console.error("PATCH request error:", error);
@@ -47,7 +55,7 @@ export const patchRequest = async (url, data = {}, config = {}) => {
 // DELETE request
 export const deleteRequest = async (url, config = {}) => {
   try {
-    const response = await axios.delete(url, { ...config });
+    const response = await axiosInstance.delete(url, { ...config });
     return response.data;
   } catch (error) {
     console.error("DELETE request error:", error);
