@@ -10,7 +10,7 @@ export const Signup = () => {
     email: "",
     password: "",
     confirm_password: "",
-    photo: null,
+    avatar: null,
   });
 
   const handleChange = (e) => {
@@ -25,7 +25,7 @@ export const Signup = () => {
     const file = e.target.files[0];
     setFormData({
       ...formData,
-      photo: file,
+      avatar: file,
     });
   };
 
@@ -95,7 +95,7 @@ export const Signup = () => {
             type="file"
             className="hidden"
             id="customFileInput"
-            name="photo"
+            name="avatar"
             onChange={handlePhotoChange}
           />
           <label
