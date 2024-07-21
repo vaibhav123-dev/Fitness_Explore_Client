@@ -4,11 +4,12 @@ import { passwordsMatch, validateEmail } from "../services/common";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
-    fullname: "",
+    fullName: "",
+    username: "",
     email: "",
     password: "",
     confirm_password: "",
-    photo: null,
+    avatar: null,
   });
 
   const handleChange = (e) => {
@@ -23,7 +24,7 @@ export const Signup = () => {
     const file = e.target.files[0];
     setFormData({
       ...formData,
-      photo: file,
+      avatar: file,
     });
   };
 
@@ -48,7 +49,7 @@ export const Signup = () => {
             className="block border border-grey-light w-full p-3 rounded mb-4"
             name="fullname"
             placeholder="Full Name"
-            value={formData.fullname}
+            value={formData.fullName}
             onChange={handleChange}
           />
           <input
@@ -77,9 +78,9 @@ export const Signup = () => {
           />
           <input
             type="file"
-            className="hidden" 
-            id="customFileInput" 
-            name="photo"
+            className="hidden"
+            id="customFileInput"
+            name="avatar"
             onChange={handlePhotoChange}
           />
           <label

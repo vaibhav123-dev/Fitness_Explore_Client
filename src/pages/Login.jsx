@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { validateEmail } from "../services/common";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    username: "",
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e?.target;
     setFormData({
       ...formData,
       [name]: value,
@@ -17,14 +19,17 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.email === "" || formData.password === "") {
-      toast.warning("Please fill in all fields");
-      return;
+    if ((formData?.email === "" && formData?.username === "") || formData?.password === "") {
+      return toast.warning("Please fill in the required fields");
+    }
+    if (formData?.email && !validateEmail(formData?.email)) {
+      return toast.error("Invalid Email Address");
     }
 
     setFormData({
       email: "",
       password: "",
+      username: "",
     });
 
     toast.success("Login successful");
@@ -38,8 +43,16 @@ export const Login = () => {
           <input
             type="text"
             className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="username"
+            placeholder="Username (optional)"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
             name="email"
-            placeholder="Email"
+            placeholder="Email (optional)"
             value={formData.email}
             onChange={handleChange}
           />
