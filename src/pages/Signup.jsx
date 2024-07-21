@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { passwordsMatch, validateEmail } from "../services/common";
+import { postRequest } from "../common/apiRequest";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
     fullname: "",
+    userName: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -35,7 +37,13 @@ export const Signup = () => {
     if (!passwordsMatch(formData)) {
       return toast.error("Passward not match");
     }
-    toast.success("Signup successful");
+
+    const user = postRequest("/api/users/register", formData);
+
+    if (user) {
+      console.log(user);
+      toast.success("Signup successful");
+    }
   };
 
   return (
@@ -47,8 +55,16 @@ export const Signup = () => {
             type="text"
             className="block border border-grey-light w-full p-3 rounded mb-4"
             name="fullname"
-            placeholder="Full Name"
+            placeholder="Fullname"
             value={formData.fullname}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="userName"
+            placeholder="Username"
+            value={formData.userName}
             onChange={handleChange}
           />
           <input
@@ -77,8 +93,8 @@ export const Signup = () => {
           />
           <input
             type="file"
-            className="hidden" 
-            id="customFileInput" 
+            className="hidden"
+            id="customFileInput"
             name="photo"
             onChange={handlePhotoChange}
           />
