@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { validateEmail } from "../services/common";
+import { postRequest } from "../common/apiRequest";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,13 +18,20 @@ export const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if ((formData?.email === "" && formData?.username === "") || formData?.password === "") {
       return toast.warning("Please fill in the required fields");
     }
     if (formData?.email && !validateEmail(formData?.email)) {
       return toast.error("Invalid Email Address");
+    }
+
+    const user = await postRequest("/api/users/login", formData);
+    if (user?.error) {
+      return toast.error(user?.error);
+    } else {
+      console.log(user);
     }
 
     setFormData({

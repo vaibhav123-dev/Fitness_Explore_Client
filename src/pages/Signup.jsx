@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { passwordsMatch, validateEmail } from "../services/common";
+import { postRequest } from "../common/apiRequest";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -26,17 +27,42 @@ export const Signup = () => {
       ...formData,
       avatar: file,
     });
+    console.log(file, formData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateEmail(formData.email)) {
       return toast.error("Invalid Email Address");
     }
     if (!passwordsMatch(formData)) {
-      return toast.error("Passward not match");
+      return toast.error("Password does not match");
     }
-    toast.success("Signup successful");
+
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append("fullName", formData.fullName);
+    formDataToSubmit.append("username", formData.username);
+    formDataToSubmit.append("email", formData.email);
+    formDataToSubmit.append("password", formData.password);
+    formDataToSubmit.append("confirm_password", formData.confirm_password);
+    if (formData.avatar) {
+      formDataToSubmit.append("avatar", formData.avatar);
+    }
+
+    try {
+      const user = await postRequest("/api/users/register", formDataToSubmit, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (user) {
+        console.log(user);
+        toast.success("Signup successful");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Signup failed");
+    }
   };
 
   return (
@@ -47,9 +73,17 @@ export const Signup = () => {
           <input
             type="text"
             className="block border border-grey-light w-full p-3 rounded mb-4"
-            name="fullname"
-            placeholder="Full Name"
+            name="fullName"
+            placeholder="Fullname"
             value={formData.fullName}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            className="block border border-grey-light w-full p-3 rounded mb-4"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
             onChange={handleChange}
           />
           <input
