@@ -1,16 +1,15 @@
-import { Navbar } from "./components/Navbar";
+import { RouterProvider } from "react-router-dom";
+import { Header } from "./components/Header";
 import { Toaster } from "./components/Toaster";
-import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
+import { router } from "./routes/routesConfig.jsx";
 
 function App() {
   return (
-    <>
-      {/* <Navbar /> */}
-      <Signup />
-      <Login />
+    <div>
+      <Header />
+      <RouterProvider router={router} />
       <Toaster />
-    </>
+    </div>
   );
 }
 
