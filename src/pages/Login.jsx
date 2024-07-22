@@ -9,6 +9,7 @@ export const Login = () => {
     password: "",
     username: "",
   });
+  const { axiosInstance, setAccessToken, setRefreshToken } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e?.target;
@@ -28,6 +29,9 @@ export const Login = () => {
     }
 
     const user = await postRequest("/api/users/login", formData);
+    setAccessToken(user.data.accessToken);
+    setRefreshToken(user.data.refreshToken);
+    toast.success("Login successful");
     if (user?.error) {
       return toast.error(user?.error);
     } else {
@@ -40,7 +44,6 @@ export const Login = () => {
       username: "",
     });
 
-    toast.success("Login successful");
   };
 
   return (
