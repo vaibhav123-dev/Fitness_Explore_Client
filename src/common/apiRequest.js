@@ -62,3 +62,5 @@ export const deleteRequest = async (url, config = {}) => {
     throw error;
   }
 };
+
+export { axiosInstance };
