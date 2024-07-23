@@ -66,7 +66,7 @@ const useAuth = () => {
     }
   );
 
-  return { axiosInstance, setAccessToken, setRefreshToken };
+  return { setAccessToken, setRefreshToken };
 };
 
 export default useAuth;

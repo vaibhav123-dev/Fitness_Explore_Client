@@ -1,7 +1,16 @@
 import React from "react";
-import { Navbar, Collapse, Typography, Button, IconButton, Card } from "@material-tailwind/react";
+import {
+  Navbar,
+  Collapse,
+  Typography,
+  Button,
+  IconButton,
+  Badge,
+  Avatar,
+} from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const [openNav, setOpenNav] = React.useState(false);
@@ -39,19 +48,24 @@ export const Header = () => {
     <div className="m-2 max-h-[768px]">
       <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Typography as="a" href="#" className="mr-4 cursor-pointer py-1.5 font-medium">
-            <FontAwesomeIcon icon={faDumbbell} beat size="2xl" />
+          <Typography className="mr-4 cursor-pointer py-1.5 font-medium">
+            <Link to="/">
+              <FontAwesomeIcon icon={faDumbbell} beat size="2xl" />
+            </Link>
           </Typography>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="flex items-center gap-x-1">
               <Button variant="text" size="sm" className="hidden lg:inline-block">
-                <span>Log In</span>
+                <Link to="/login">Log In</Link>
               </Button>
               <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-                <span>Sign in</span>
+                <Link to="/register">Sign In</Link>
               </Button>
             </div>
+            <Badge placement="top-end" overlap="circular" color="green" withBorder>
+              <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
+            </Badge>
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -87,10 +101,10 @@ export const Header = () => {
           {navList}
           <div className="flex items-center gap-x-1">
             <Button fullWidth variant="text" size="sm" className="">
-              <span>Log In</span>
+              <Link to="/login">Log In</Link>
             </Button>
             <Button fullWidth variant="gradient" size="sm" className="">
-              <span>Sign in</span>
+              <Link to="/register">Sign In</Link>
             </Button>
           </div>
         </Collapse>

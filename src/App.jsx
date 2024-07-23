@@ -1,16 +1,10 @@
-import { RouterProvider } from "react-router-dom";
-import { Header } from "./components/Header";
-import { Toaster } from "./components/Toaster";
-import { router } from "./routes/routesConfig.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { routes } from "./routes/routesConfig";
+
+const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-    <div>
-      <Header />
-      <RouterProvider router={router} />
-      <Toaster />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
