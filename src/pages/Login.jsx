@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { validateEmail } from "../services/common";
 import { postRequest } from "../common/apiRequest";
+import useAuth from "./../hooks/auth.js";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ export const Login = () => {
     password: "",
     username: "",
   });
-  const { axiosInstance, setAccessToken, setRefreshToken } = useAuth();
+  const { setAccessToken, setRefreshToken } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e?.target;
@@ -43,7 +44,6 @@ export const Login = () => {
       password: "",
       username: "",
     });
-
   };
 
   return (
