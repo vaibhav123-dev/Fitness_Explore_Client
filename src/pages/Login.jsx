@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { validateEmail } from "../services/common";
 import { postRequest } from "../common/apiRequest";
-import useAuth from "./../hooks/auth.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/slices/userSlice.js";
+import { useAuth } from "../hooks/auth.jsx";
 
 export const Login = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
     username: "",
   });
-  const { setAccessToken, setRefreshToken } = useAuth();
+  const {updateUser } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e?.target;
@@ -30,13 +33,13 @@ export const Login = () => {
     }
 
     const user = await postRequest("/api/users/login", formData);
-    setAccessToken(user.data.accessToken);
-    setRefreshToken(user.data.refreshToken);
+
     toast.success("Login successful");
     if (user?.error) {
       return toast.error(user?.error);
     } else {
-      console.log(user);
+      updateUser(user?.data);
+      dispatch(setUser(user?.data?.user));
     }
 
     setFormData({

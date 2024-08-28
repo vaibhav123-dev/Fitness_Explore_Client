@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { passwordsMatch, validateEmail } from "../services/common";
 import { postRequest } from "../common/apiRequest";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +29,6 @@ export const Signup = () => {
       ...formData,
       avatar: file,
     });
-    console.log(file, formData);
   };
 
   const handleSubmit = async (e) => {
@@ -55,12 +56,11 @@ export const Signup = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (user) {
-        console.log(user);
+      if (user?.data) {
+        console.log(user.data);
         toast.success("Signup successful");
       }
     } catch (error) {
-      console.error(error);
       toast.error("Signup failed");
     }
   };

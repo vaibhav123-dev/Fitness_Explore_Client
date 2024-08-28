@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Navbar,
   Collapse,
@@ -11,11 +11,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from "../hooks/auth";
 
 export const Header = () => {
+  const { currentUser } = useAuth();
   const [openNav, setOpenNav] = React.useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
   }, []);
 
@@ -64,7 +67,9 @@ export const Header = () => {
               </Button>
             </div>
             <Badge placement="top-end" overlap="circular" color="green" withBorder>
-              <Avatar src="https://docs.material-tailwind.com/img/face-2.jpg" alt="avatar" />
+              <Link to="/profile">
+                <Avatar src={currentUser?.avatar} alt="avatar" />
+              </Link>
             </Badge>
             <IconButton
               variant="text"
